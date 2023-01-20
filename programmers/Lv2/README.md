@@ -2,9 +2,7 @@
 
 - [heapq]([heapq --- 힙 큐 알고리즘 &#8212; 파이썬 설명서 주석판](https://python.flowdas.com/library/heapq.html)
 
-[heapq 정렬 구조]
-
-<img title="" src="file:///C:/Users/wlsdn/OneDrive/바탕 화면/ssafy/algorithm/programmers/Lv2/heap 구조.png" alt="heap 구조.png" width="681">
+![heapq 정렬 구조](https://raw.githubusercontent.com/YuJinUk/Algorithm/master/programmers/Lv2/heap%20%EA%B5%AC%EC%A1%B0.png)
 
 ```python
 # 손으로 직접 그려가며 정렬 해봤음
