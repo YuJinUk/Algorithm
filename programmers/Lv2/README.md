@@ -6,8 +6,6 @@
 
 <img src="file:///C:/Users/wlsdn/OneDrive/바탕%20화면/ssafy/algorithm/programmers/Lv2/heap%20구조.png" title="" alt="heap 구조.png" width="681">
 
-
-
 ```python
 # 손으로 직접 그려가며 정렬 해봤음
 >>> def heapsort(iterable):
