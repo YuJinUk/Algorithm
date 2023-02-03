@@ -5,10 +5,15 @@ num = deque(num)
 result = deque()
 
 if n == k:
+
     print(sum(num))
+
 elif len(set(num)) == 1:
+
     print(num[0]*k)
+
 else:
+
     sum_num = 0
     max_num = 0
 
