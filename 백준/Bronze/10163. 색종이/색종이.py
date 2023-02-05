@@ -8,7 +8,11 @@ for idx, k in enumerate(n):
         for j in range(k[1], k[1] + k[3]):
             board[i][j] = idx+1
 
-board = sum(board, [])
+board_new = []
+for i in board:
+    for j in i:
+        if j != 0:
+            board_new.append(j)
 
 for i in range(1,paper+1):
-    print(board.count(i))
+    print(board_new.count(i))
