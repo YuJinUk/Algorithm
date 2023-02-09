@@ -7,7 +7,7 @@ def solution(maps):
     # print(island)
     dxdy = [(1,0),(-1,0),(0,1),(0,-1)]
     visited = []
-    result = set()
+    result = []
     ans = []
     for i,j in island:
         if (i,j) not in result:
@@ -22,7 +22,7 @@ def solution(maps):
                     # print(x, y, nx, ny)
                     if -1 < nx < row and -1 < ny < column and (nx,ny) not in result and map[nx][ny] != 'X':
                         visited.append((nx, ny))
-                        result.add((nx, ny))
+                        result.append((nx, ny))
                         cnt += int(map[nx][ny])
                     # print(visited)
                     # print('result',result)
