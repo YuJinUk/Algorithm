@@ -23,7 +23,7 @@ def solution(m, n, puddles):
     #             dp[i].append((x,y+1))
     # return len(dp[-1]) 
     
-    # dfs로 탐색하면 
+    # dfs로 탐색하면 시간초과
     # result = 0
     # print(dp)
     # while dp:
