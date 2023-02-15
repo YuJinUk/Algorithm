@@ -1,3 +1,17 @@
-queen = [0, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 73712, 365596, 2279184, 14772512, 95815104, 666090624, 4968057848, 39029188884, 314666222712, 2691008701644, 24233937684440, 227514171973736, 2207893435808352, 22317699616364044, 234907967154122528]
-N = int(input())
-print(queen[N])
+def solution(n):
+    check_col = [False] * 100; check_d1 = [False] * 100; check_d2 = [False] * 100
+    def process(row):
+        answer = 0
+        if row == n+1:
+            return 1
+        for i in range(1,n+1):
+            d1 = row+i; d2 = n + (row - i)
+            if check_col[i] == False and check_d1[d1] == False and check_d2[d2] == False:
+                check_col[i] = True; check_d1[d1] = True; check_d2[d2] = True
+                answer += process(row+1)
+                check_col[i] = False; check_d1[d1] = False; check_d2[d2] = False
+        return answer
+    answer = process(1)
+    return answer
+t = int(input())
+print(solution(t))
