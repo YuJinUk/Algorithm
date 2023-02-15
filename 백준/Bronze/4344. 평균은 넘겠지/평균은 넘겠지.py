@@ -11,4 +11,4 @@ for test_case in range(1, C+1):
         else:
             pass
     pct = cnt/N[0] *100
-    print('{:.3f}%'.format(pct))
+    print(f'{round(pct,3):.3f}%')
