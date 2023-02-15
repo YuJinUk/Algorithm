@@ -1,5 +1,5 @@
 def solution(n):
-    check_col = [False] * 100; check_d1 = [False] * 100; check_d2 = [False] * 100
+    check_col = [False] * (n+1); check_d1 = [False] * (2*n); check_d2 = [False] * (2*n)
     def process(row):
         answer = 0
         if row == n+1:
