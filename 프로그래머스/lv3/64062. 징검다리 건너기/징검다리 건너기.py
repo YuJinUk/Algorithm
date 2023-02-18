@@ -1,22 +1,22 @@
 from collections import deque
-def solution(arr, K):
-    Qi = deque()
-    N = len(arr)
+def solution(stones, k):
+    ans = deque()
+    n = len(stones)
     result = deque()
-    for i in range(K):
+    for i in range(k):
 
-        while Qi and arr[i] > arr[Qi[-1]]:
-            Qi.pop()
+        while ans and stones[i] > stones[ans[-1]]:
+            ans.pop()
 
-        Qi.append(i)
-    for i in range(K, N):
-        result.append(arr[Qi[0]])
-        while Qi and Qi[0] <= i-K:
-            Qi.popleft()
-        while Qi and arr[i] >= arr[Qi[-1]]:
-            Qi.pop()
-        Qi.append(i)
-    result.append(arr[Qi[0]])
+        ans.append(i)
+    for i in range(k, n):
+        result.append(stones[ans[0]])
+        while ans and ans[0] <= i-k:
+            ans.popleft()
+        while ans and stones[i] >= stones[ans[-1]]:
+            ans.pop()
+        ans.append(i)
+    result.append(stones[ans[0]])
     return min(result)
 # from collections import deque
 # def solution(stones, k):
