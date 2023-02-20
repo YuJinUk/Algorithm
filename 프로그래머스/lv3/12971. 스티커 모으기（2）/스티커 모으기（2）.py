@@ -6,8 +6,8 @@ def solution(sticker):
     dp1, dp2 = [0]*len(sticker), [0]*len(sticker)
     dp1[0], dp1[1] = sticker[0], sticker[0]
     dp2[1] = sticker[1]
-    for i in range(2,len(sticker)-1):
+    for i in range(2,len(sticker)-1): # 첫 번째 원소를 선택하면 마지막 원소를 선택 못함
         dp1[i] = max(dp1[i-2]+sticker[i], dp1[i-1])
-    for j in range(2,len(sticker)):
+    for j in range(2,len(sticker)): # 두 번째 원소를 선택하면 첫 번째 원소를 선택 못함
         dp2[j] = max(dp2[j-2]+sticker[j], dp2[j-1])
     return max(max(dp1), max(dp2))
