@@ -3,14 +3,14 @@ def solution(stones, k):
     ans = deque()
     n = len(stones)
     result = deque()
-    for i in range(k):
+    for i in range(k): # range(3)
 
         while ans and stones[i] > stones[ans[-1]]:
             ans.pop()
-
         ans.append(i)
-    for i in range(k, n):
+    for i in range(k, n): # range(3, 8)
         result.append(stones[ans[0]])
+        
         while ans and ans[0] <= i-k:
             ans.popleft()
         while ans and stones[i] >= stones[ans[-1]]:
