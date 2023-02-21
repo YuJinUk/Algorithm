@@ -2,16 +2,13 @@ def solution(maps):
     map = [list(i) for i in maps]
     row = len(map)
     column = len(map[0])
-    # print(map)
     island = [(i,j) for i in range(row) for j in range(column) if map[i][j] != 'X']
-    # print(island)
     dxdy = [(1,0),(-1,0),(0,1),(0,-1)]
     visited = []
     result = set()
     ans = []
     for i,j in island:
         if (i,j) not in result:
-            # print('i랑j',i,j)
             visited.append((i,j))
             cnt = 0
             while visited:
@@ -24,8 +21,6 @@ def solution(maps):
                         visited.append((nx, ny))
                         result.add((nx, ny))
                         cnt += int(map[nx][ny])
-                    # print(visited)
-                    # print('result',result)
             if not cnt:
                 cnt += int(map[x][y])
             ans.append(cnt)
