@@ -56,6 +56,8 @@ def solution(e, starts):
 #             if not n % i:
 #                 cnt += 2
 #         return cnt-1
+# def solution(e, starts):
+#     check = [0] * (e+1)
 #     ans = []
 #     for num in starts:
 #         max_num = [0,0]
@@ -64,5 +66,7 @@ def solution(e, starts):
 #                 check[i] = divisor(i)
 #             if max_num[0] < check[i]:
 #                 max_num = [check[i],i]
+#         print(check)
+#         print(max_num)
 #         ans.append(max_num[1])
 #     return ans
