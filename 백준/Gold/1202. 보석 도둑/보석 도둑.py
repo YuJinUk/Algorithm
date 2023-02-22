@@ -1,22 +1,17 @@
-import sys
 import heapq
+n, m = map(int, input().split())
+j = []
+for _ in range(n):
+    heapq.heappush(j, list(map(int, input().split())))
+b = sorted([int(input()) for _ in range(m)])
 
-N, K = map(int, sys.stdin.readline().split())
-jew = []
-for _ in range(N):
-    heapq.heappush(jew, list(map(int, sys.stdin.readline().split())))
-bags = []
-for _ in range(K):
-    bags.append(int(sys.stdin.readline()))
-bags.sort()
-
-answer = 0
-tmp_jew = []
-for bag in bags:
-    while jew and bag >= jew[0][0]:
-        heapq.heappush(tmp_jew, -heapq.heappop(jew)[1])
-    if tmp_jew:
-        answer -= heapq.heappop(tmp_jew)
-    elif not jew:
+result = []
+ans = 0
+for siz in b:
+    while j and j[0][0] <= siz:
+        heapq.heappush(result, -heapq.heappop(j)[1])
+    if result:
+        ans -= heapq.heappop(result)
+    elif not j:
         break
-print(answer)
+print(ans)
