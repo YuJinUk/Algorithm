@@ -1,29 +1,19 @@
 def solution(tickets):
-    n = len(tickets)
-    answer = []
-    
-    def dfs():
-        if len(stack) == n+1 :
-            a = [stack[i] for i in range(n+1)]
-            answer.append(a)
-        for i in range(n):
-            if not visited[i] and stack[-1] == tickets[i][0] :
-                visited[i] = 1
-                stack.append(tickets[i][1])
-                dfs()
-                visited[i] = 0
-                stack.pop()
-
-    for i in range(n):
-        visited = [0] * n
-        stack = []
-        if tickets[i][0] == "ICN":
-            visited[i] = 1
-            stack.append(tickets[i][0])
-            stack.append(tickets[i][1])
-            dfs()
-    return min(answer)
-
+    routes = dict()
+    for t in tickets:
+        routes[t[0]] = routes.get(t[0], []) + [t[1]]
+    for r in routes:
+        routes[r].sort(reverse=True)
+    stack = ["ICN"]
+    path = []
+    while len(stack) > 0:
+        top = stack[-1]
+        if top not in routes or len(routes[top]) == 0:
+            path.append(stack.pop())
+        else:
+            stack.append(routes[top][-1])
+            routes[top] = routes[top][:-1]
+    return path[::-1]
 # from collections import deque
 # def solution(tickets):
 #     dic = dict()
