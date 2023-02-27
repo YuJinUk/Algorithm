@@ -1,35 +1,36 @@
-import sys
-input = sys.stdin.readline
-
-N,M = map(int,input().split())
-graph = [[float('inf') for _ in range(N)] for _ in range(N)]
-
-for i in range(M):
-    a,b = map(int,input().split())
-    graph[a-1][b-1] = 2
-    graph[b-1][a-1] = 2
-
-for i in range(N):
-    graph[i][i] = 0
-
-for k in range(N):
-    for i in range(N):
-        for j in range(N):
-            if graph[i][j] >graph[i][k] + graph[k][j]:
-                graph[i][j] = graph[i][k] + graph[k][j]
-
-max_time = float('inf')
-
-for i in range(N-1):
-    for j in range(i,N):
-        chicken1 = i
-        chicken2 = j
-        sum_time = 0
-        for building in range(N):
-            sum_time += min(graph[building][chicken1],graph[building][chicken2])
-        if max_time > sum_time:
-            max_time = sum_time
-            max_chicken1 = chicken1
-            max_chicken2 = chicken2
-
-print(max_chicken1+1, max_chicken2+1, max_time)
+from itertools import combinations
+from collections import deque
+n, m = map(int, input().split())
+dic = dict()
+for i in range(1,n+1):
+    dic.setdefault(i, [])
+for _ in range(m):
+    parent, child = map(int, input().split())
+    dic[parent].append(child)
+    dic[child].append(parent)
+answer = deque([[0]*(n+1) for _ in range(n+1)])
+for start in dic:
+    visited = [False for _ in range(n+1)]
+    dist = 0
+    result = deque()
+    result.append((start,dist))
+    while result:
+        v, dist = result.popleft()
+        if not visited[v]:
+            visited[v] = True
+            dist += 1
+            for i in dic[v]:
+                if not visited[i]:
+                    result.append((i, dist))
+                    answer[start][i] = dist
+combi = list(combinations(list(range(1, n+1)), 2))
+checking_list = []
+for c1, c2 in combi:
+    a = answer[c1]
+    b = answer[c2]
+    cnt = 0
+    for check1, check2 in zip(a, b):
+        cnt += check2 if check1 > check2 else check1
+    checking_list.append([c1,c2,cnt*2])
+checking_list.sort(key = lambda x: (x[2], x[0], x[1]))
+print(*checking_list[0])
