@@ -14,18 +14,18 @@ for _ in range(m):
 
 for start in dic:
     visited = [False for _ in range(n+1)]
+    visited[start] = True
     dist = 0
     result = deque()
     result.append((start,dist))
     while result:
         v, dist = result.popleft()
-        if not visited[v]:
-            visited[v] = True
-            for i in dic[v]:
-                if not visited[i]:
-                    result.append((i, dist+1))
-                    answer[start][i] = dist+1
-                    
+        for i in dic[v]:
+            if not visited[i]:
+                visited[i] = True
+                result.append((i, dist+1))
+                answer[start][i] = dist+1
+                
 combi = list(combinations(list(range(1, n+1)), 2))
 checking_list = []
 
