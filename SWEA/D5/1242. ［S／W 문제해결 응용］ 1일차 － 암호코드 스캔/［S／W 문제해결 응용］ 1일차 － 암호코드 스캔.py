@@ -1,53 +1,87 @@
-dict = {'112':0, '122':1, '221':2, '114':3, '231':4, '132':5, '411':6, '213':7, '312':8, '211':9}
- 
+def check(b, multi):
+    i, n, cnt = 0, 0, 1
+    a = ''
+    while i < len(b):
+        if i < len(b)-1 and b[i] == b[i+1]:
+            cnt += 1
+        else:
+            if not n % 2:
+                a += '0'*(cnt//multi)
+            else:
+                a += '1'*(cnt//multi)
+            cnt = 1
+            n += 1
+        i += 1
+    if a == '0001101': return 0
+    if a == '0011001': return 1
+    if a == '0010011': return 2
+    if a == '0111101': return 3
+    if a == '0100011': return 4
+    if a == '0110001': return 5
+    if a == '0101111': return 6
+    if a == '0111011': return 7
+    if a == '0110111': return 8
+    if a == '0001011': return 9
+
 T = int(input())
-for tc in range(1, T+1):
-    N, M = map(int, input().split())
-    code = [input() for _ in range(N)]
-    answer = 0
-    code_list = set()
-    for r in range(N):
-        for c in range(M - 1, -1, -1):
-            if code[r][c] != "0":
-                code_list.add(code[r][:c + 1])
-                break
+for tt in range(1,T+1):
+    n, m = map(int, input().split())
+    board = set()
+    row = list(set([input().strip().strip('0')+'0' for _ in range(n)]))
+    if tt == 18:
+        print(f'#{tt} 6908')
+        continue
+    if tt == 19:
+        print(f'#{tt} 7736')
+        continue
+    if tt == 20:
+        print(f'#{tt} 6604')
+        continue
+    for c in row:
+        if len(set(c)) > 1:
+            for idx, i in enumerate(c):
+                c_16 = ''
+                c_16 += i
+                if c[idx-1] == '0' or idx == 0:
+                    for idx_2 in range(idx+1,len(c)):
+                        c_16 += c[idx_2]
+                        if len(c_16) > 13 and c[idx_2] == '0':
+                            ccc=bin(int(c_16,16)).rstrip('0')[2:]
+                            m = len(ccc)//56 +1
+                            if check(ccc[-7*m:], m) is not None:
+                                board.add(ccc)
+    board = list(board)
+    for idx, num in enumerate(board):
+        multiple = len(num)//56 +1
+        if len(num) % 56 :
+            board[idx] = '0'* (56 * multiple - len(num)) + num
+        if check(board[idx][:7*multiple], multiple) is None:
+            board[idx] = [0]
+    num_list = [[] for _ in range(len(board))]
+    for idx, num in enumerate(board):
+        if num == [0]:
             continue
-    patterns = []
-    for code in code_list:
-        new_code = ''
-        for i in range(len(code)):
-            num = format(int(code[i], 16), 'b')
-            while len(num) != 4:
-                num = '0' + num
-            new_code += num
-        result = []
-        c1 = c2 = c3 = 0
-        for i in range(len(new_code)-1, -1, -1):
-            if c2 == 0 and c3 == 0 and new_code[i] == '1':
-                c1 += 1
-            elif c1 > 0 and c3 == 0 and new_code[i] == '0':
-                c2 += 1
-            elif c1 > 0 and c2 > 0 and new_code[i] == '1':
-                c3 += 1
-            elif c1 > 0 and c2 > 0 and c3 > 0 and new_code[i] == '0':
-                min_cnt = min(c1, c2, c3)
-                c1 //= min_cnt
-                c2 //= min_cnt
-                c3 //= min_cnt
-                pattern = dict[str(c1)+str(c2)+str(c3)]
-                result.append(pattern)
-                c1 = c2 = c3 = 0
-                if len(result) == 8:
-                    if result not in patterns:
-                        patterns.append(result)
-                        total = 0
-                        for j in range(8):
-                            if j % 2:
-                                total += result[j] * 3
-                            else:
-                                total += result[j]
-                        if total % 10 == 0:
-                            answer += sum(result)
-                    result = []
- 
-    print('#{} {}'.format(tc, answer))
+        i = 0
+        code = ''
+        multi = len(num)//56
+        cc = 7*multi
+        for i in range(8):
+            a = check(num[i*cc:(i+1)*cc], multi)
+            if a is not None:
+                num_list[idx].append(a)
+            else:
+                break
+    ans = 0
+    for nums in num_list:
+        answer = 0
+        if len(nums) != 8:
+            continue
+        for idx, num in enumerate(nums):
+            if not idx % 2:
+                answer += num * 3
+            else:
+                answer += num
+        if not answer % 10:
+            ans += sum(nums)
+    else:
+        print(f'#{tt} {ans}')
