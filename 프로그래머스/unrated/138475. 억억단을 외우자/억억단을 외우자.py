@@ -1,18 +1,8 @@
 def solution(e, starts):
-    
     check = [1] * (e+1)
     for i in range(2, e + 1):
-        for j in range(i, e + 1):
-            if i * j > e:
-                break
-            if i == j:
-                check[i*i] += 1
-                continue
-            check[i*j] += 2
-# 아래 방법으로 약수 개수 구하는 게 조금 더 빠름        
-#     for i in range(2, e + 1):
-#         for j in range(i, e + 1, i):
-#             check[j] += 1
+        for j in range(i, e + 1, i):
+            check[j] += 1
     max_num = 0
     for idx in range(e,0,-1):
         if check[idx] >= max_num:
@@ -56,8 +46,6 @@ def solution(e, starts):
 #             if not n % i:
 #                 cnt += 2
 #         return cnt-1
-# def solution(e, starts):
-#     check = [0] * (e+1)
 #     ans = []
 #     for num in starts:
 #         max_num = [0,0]
@@ -66,7 +54,5 @@ def solution(e, starts):
 #                 check[i] = divisor(i)
 #             if max_num[0] < check[i]:
 #                 max_num = [check[i],i]
-#         print(check)
-#         print(max_num)
 #         ans.append(max_num[1])
 #     return ans
