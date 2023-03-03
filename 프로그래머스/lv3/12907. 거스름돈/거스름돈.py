@@ -4,7 +4,8 @@ def solution(n, money):
     money.sort()
     l = len(money)
     for j in money:
+        check[j] += 1
         for i in range(n+1):
-            if i >= j:
+            if i > j:
                 check[i] += check[i-j]
     return check[-1] % (10**9 + 7)
