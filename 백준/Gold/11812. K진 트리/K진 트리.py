@@ -10,7 +10,6 @@ for i, j in node:
     while True:
         b = (b-2)//k + 1
         if a == b:
-            f = 1
             break
         elif a > b:
             a, b = b, a
