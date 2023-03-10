@@ -2,7 +2,7 @@ from collections import deque
 n, m = map(int, input().split())
 matrix = [list(input()) for _ in range(n)]
 
-def dfs(a, b):
+def bfs(a, b):
     visit = [[0] * m for _ in range(n)]
     dxdy = [(1,0),(-1,0),(0,-1),(0,1)]
     v = deque()
