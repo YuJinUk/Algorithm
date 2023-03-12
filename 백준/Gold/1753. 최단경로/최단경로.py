@@ -1,9 +1,10 @@
 import heapq
-V, E = map(int, input().split())
-k = int(input())
+import sys
+V, E = map(int, sys.stdin.readline().split())
+k = int(sys.stdin.readline())
 node = {i:[] for i in range(1, V+1)}
 for i in range(1, E+1):
-    u, v, w = map(int, input().split())
+    u, v, w = map(int, sys.stdin.readline().split())
     node[u].append((v,w))
 
 def dijkstra(graph, start):
