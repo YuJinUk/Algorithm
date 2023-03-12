@@ -1,6 +1,6 @@
 import sys
 k, n = map(int, sys.stdin.readline().split())
-graph = [[1e9] * (k+1) for _ in range(k+1)]
+graph = [[float('inf')] * (k+1) for _ in range(k+1)]
 
 graph[0][0] = 0
 for i in range(1, k+1):
