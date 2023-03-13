@@ -27,9 +27,4 @@ for i in range(k):
         print('NONE')
         exit()
 # i와 i-1의 차이가 1이라면 #을 출력
-for i in range(1, k+1):
-    if graph[0][i] - graph[0][i-1] == 1:
-        print('#', end = '')
-    else:
-        print('-', end = '')
-print()
+print(''.join(['#' if graph[0][i]-graph[0][i-1] ==1 else '-' for i in range(1,k+1)]))
