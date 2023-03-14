@@ -1,3 +1,4 @@
+# 확장된 유클리드 알고리즘
 import sys
 def extended_gcd(a, b):
     check, x0, x1, y0, y1 = a, 1, 0, 0, 1
