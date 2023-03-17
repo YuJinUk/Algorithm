@@ -9,7 +9,7 @@ for _ in range(n-1):
     tree[parent].append(child)
     tree[child].append(parent)
 
-l = 20
+l = int(log2(1e5)) + 1
 table = [[0]*l for _ in range(n+1)]
 depth = [0]*(n+1)
 visit = [False]*(n+1)
