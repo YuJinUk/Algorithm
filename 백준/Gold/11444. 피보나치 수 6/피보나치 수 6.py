@@ -1,32 +1,23 @@
-#2^x 피보나치를 구해주는 함수
-def matrix_mul_self(x):
-    base = [[1, 1], [1, 0]]
-    result = [[1, 1], [1, 0]]
-    for _ in range(x):
-        result = [[0, 0], [0, 0]]
-        for i in range(2):
-            for j in range(2):
-                for k in range(2):
-                    result[i][j] += (base[i][k] * base[k][j]) % (int(1e9)+7)
-        base = result
-        
-    return result
-
-#2*2 두 행렬의 곱을 구해주는 함수
-def matrix_mul(a, b):
-    result = [[0 ,0], [0, 0]]
-    for i in range(2):
+import sys
+N = int(sys.stdin.readline())
+x = [[1,1],[1,0]]
+def mult(a,b): # 행렬의 곱을 구하자
+    A = [[0,0],[0,0]] # 2차원 행렬
+    for i in range(2): 
         for j in range(2):
             for k in range(2):
-                result[i][j] += (a[i][k] * b[k][j]) % (int(1e9)+7)
-                
-    return result
+                A[i][j] += a[i][k] * b[k][j] % (int(1e9)+7) # a, b 행렬의 곱 이고 중간에 100만으로 나눠도 결과는 동일
+    return A  # 나누지 않고 반환하면 값이 너무 커서 처리시간 증가 
 
-n = bin(int(input()))[2:] #2진법으로 변환
+def f(x, n): #행렬을 n번 곱했을 때의 피보나치 수열 구하기
+    if n == 1: 
+        return x 
+    else : 
+        matrix = f(x,n//2) # 행렬이 n이 1이 될 때까지 재귀 반복 
+        if n % 2 == 0: # 짝수면
+            return mult(matrix, matrix) # 행렬끼리 곱해주기
+        else: # 홀수면
+            return mult(mult(matrix,matrix), x) # 행렬 곱한거에 한번 더 곱해주기
 
-result = [[1, 0], [0, 1]]
-for i in range(len(n)):
-    if n[-i-1] == '1': #2^x 피보나치들만 구해준 다음 곱해줌
-        result = matrix_mul(result, matrix_mul_self(i))
-        
-print(result[0][1] % (int(1e9)+7))
+result = f(x,N)
+print(result[0][1] % (int(1e9)+7)) # n+1이 아닌 n번 째 피보나치 수를 원하므로
