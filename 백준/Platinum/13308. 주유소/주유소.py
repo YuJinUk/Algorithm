@@ -11,31 +11,30 @@ for _ in range(m):
 # print(graph)
 
 def dijkstra(graph, start):
-    distances = [[float('inf')] * 3 for _ in range(n + 1)]
-    distances[start][0] = 0 # 거리
-    for idx, i in enumerate(price):
-        distances[idx][1] = i # 주유소 가격
+    distances = [[float('inf')] * (max(price) + 1) for _ in range(n + 1)]
+    # for i in distances:
+    #     i['distance'] = float('inf')
+    # distances[start]['distance'] = 0 # 거리
+    distances[start][price[start]]
     queue = []
-    distances[start][2] = 0
-    heapq.heappush(queue, (distances[start][0], distances[start][1], distances[start][2], start))
+    heapq.heappush(queue, (0, price[start], start))
     
     while queue:
-        now_dist, now_price, total, now = heapq.heappop(queue)
+        now_fee, now_price, now = heapq.heappop(queue)
         
-        if distances[now][0] < now_dist:
+        if distances[now][now_price] < now_fee:
             continue
-        
+        if now == n:
+            return now_fee
         for nxt, nxt_dist in graph[now].items():
-            dist = now_dist + nxt_dist
-            if distances[nxt][0] > dist:
-                distances[nxt][0] = dist
-                nxt_total = total + nxt_dist * now_price
-                distances[nxt][2] = nxt_total
-                if distances[nxt][1] > now_price:
-                    distances[nxt][1] = now_price
-                heapq.heappush(queue, (distances[nxt][0], distances[nxt][1], distances[nxt][2], nxt))
+            nxt_price = now_price if price[nxt] > now_price else price[nxt]
+            nxt_fee = now_fee + nxt_dist * now_price
+            if distances[nxt][now_price] > nxt_fee:
+                distances[nxt][now_price] = nxt_fee
+                heapq.heappush(queue, (nxt_fee, nxt_price, nxt))
         # print(queue)
     return distances
 
-result = dijkstra(graph, 1)
-print(result[n][2])
+# result = dijkstra(graph, 1)
+# print(min(result[-1]))
+print(dijkstra(graph, 1))
