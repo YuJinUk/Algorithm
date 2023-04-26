@@ -1,71 +1,66 @@
-import sys, heapq
+import sys
 input = sys.stdin.readline
 
-# n, m = 5, 6
-# a = [[1,2,3],[1,3,2],[2,3,2],[2,4,4],[3,5,4],[4,5,3]]
-n, m = map(int, input().split())
-graph = {i : dict() for i in range(1, n+1)}
-for i in range(m):
-    start, end, weight = map(int, input().split())
-#    start, end, weight = a[i]
-    graph[start][end] = weight
-    graph[end][start] = weight
-#print(graph)
+from heapq import heappush, heappop
+INF = float('inf')
 
-def dijkstra_1(graph, start):
-    distances = [float('inf') for _ in range(n+1)]
-    queue = []
-    distances[start] = 0
-    heapq.heappush(queue, (0, start))
-    
-    while queue:
-        now_dist, now = heapq.heappop(queue)
-        
-        if distances[now] < now_dist:
-            continue
-            
-        for nxt, nxt_dist in graph[now].items():
-            dist = now_dist + nxt_dist
-            if distances[nxt] > dist:
-                distances[nxt] = dist
-                heapq.heappush(queue, (dist, nxt))
-    
-    return distances
+def fox_dijkstra():
+    q = []
+    heappush(q, (0, 1)) # 거리, 도착점
+    distance_fox[1] = 0 # 시작 노드 초기화
 
-def dijkstra_2(graph, start):
-    distances = [[float('inf')]*2 for _ in range(n+1)]
-    queue = []
-    distances[start][0] = 0
-    cnt = 0
-    heapq.heappush(queue, (0, start, cnt))
-    
-    while queue:
-        now_dist, now, cnt = heapq.heappop(queue)
-        
-        if not cnt%2 and distances[now][0] < now_dist:
+    while q: # 큐가 비어있지 않으면
+        dist, now = heappop(q) # 최단 거리가 가장 짧은 노드 꺼내기
+
+        if distance_fox[now] < dist: # 이미 처리된 노드면 무시
             continue
-        elif cnt%2 and distances[now][1] < now_dist:
+
+        for ni, di in graph[now]:
+            cost = dist + di
+            if cost < distance_fox[ni]:
+                distance_fox[ni] = cost
+                heappush(q, (cost, ni))
+
+def wolf_dijkstra():
+    q = []
+    heappush(q, (0, 1, False)) # 거리, 도착점, 턴
+    distance_wolf[1][1] = 0 # 시작 노드 초기화, distance_wolf[0] 빠르게 도착, distance_wolf[1] 느리게 도착
+
+    while q: # 큐가 비어있지 않으면
+        dist, now, turn = heappop(q) # 최단 거리가 가장 짧은 노드 꺼내기
+
+        if turn and distance_wolf[0][now] < dist: # 이미 처리된 노드면 무시
             continue
-            
-        for nxt, nxt_dist in graph[now].items():
-            if not cnt%2:
-                dist = now_dist + nxt_dist/2
-                if distances[nxt][1] > dist:
-                    distances[nxt][1] = dist
-                    heapq.heappush(queue, (dist, nxt, cnt+1))
+        elif not turn and distance_wolf[1][now] < dist:
+            continue
+
+        for ni, di in graph[now]:
+            if turn: # 홀수번째면
+                cost = dist + di * 2
+                if cost < distance_wolf[1][ni]:
+                    distance_wolf[1][ni] = cost
+                    heappush(q, (cost, ni, False))
             else:
-                dist = now_dist + nxt_dist*2
-                if distances[nxt][0] > dist:
-                    distances[nxt][0] = dist
-                    heapq.heappush(queue, (dist, nxt, cnt+1))
-    return distances
+                cost = dist + di // 2
+                if cost < distance_wolf[0][ni]:
+                    distance_wolf[0][ni] = cost
+                    heappush(q, (cost, ni, True))
 
-fox = dijkstra_1(graph, 1)
-wolf = dijkstra_2(graph, 1)
-# print(fox)
-# print(wolf)
+N, M = map(int, input().split())
+graph = [[] for _ in range(N + 1)]
+distance_fox = [INF] * (N + 1)
+distance_wolf = [[INF] * (N + 1) for _ in range(2)]
+
+for _ in range(M):
+    a, b, d = map(int, input().split())
+    graph[a].append((b, d * 2)) # a -> b 거리 d
+    graph[b].append((a, d * 2)) # b -> a 거리 d
+
+fox_dijkstra()
+wolf_dijkstra()
+
 answer = 0
-for i in range(2, n+1):
-    if fox[i] < min(wolf[i]):
+for i in range(1, N+1):
+    if distance_fox[i] < min(distance_wolf[0][i], distance_wolf[1][i]):
         answer += 1
 print(answer)
