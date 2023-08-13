@@ -10,13 +10,13 @@ def solution(book_time):
     for t in book_time:
         start, end = changetime(t[0]), changetime(t[1])
         books[start] += 1
-        books[end + 10] -= 1 # 청소 시간 보정
+        books[end + 10] -= 1
         # print(books)
 
     books = sorted(list(map(list, books.items())))
-
-    for b in books:
-        now += b[1]
+    # print(books)
+    for book in books:
+        now += book[1]
         if answer < now:
             answer = now
 
