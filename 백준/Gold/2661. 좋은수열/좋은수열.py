@@ -1,28 +1,24 @@
 import sys
-
-
-def check(s):
-    for i in range(1, (len(s) // 2) + 1):
-        leng = i
-        start = 0
-        start2 = start + i
-        for j in range(len(s) - (leng * 2) + 1):
-            if s[start + j:start + j + leng] == s[start2 + j:start2 + j + leng]:
-                return False
-    return True
-
-
-def make_num(number, N):
-    if check(number) is False:
-        return
-    if len(number) == N:
-        print(number)
-        sys.exit()
-
-    else:
-        for j in range(1, 4):
-            make_num(number + str(j), N)
-
+input = sys.stdin.readline
+sys.setrecursionlimit(10 ** 6)
 
 N = int(input())
-make_num('1', N)
+
+def check(s): # 나쁜 순열 체크용
+    for i in range(1, (len(s) // 2) + 1):
+        for j in range(len(s) - (i * 2) + 1):
+            if s[j : j + i] == s[i + j : i * 2 + j]:
+                return 0
+    return 1
+
+def back_tracking(num, N):
+    if not check(num):
+        return
+    if len(num) == N:
+        print(num)
+        sys.exit()
+    else:
+        for j in range(1, 4):
+            back_tracking(num + str(j), N)
+
+back_tracking('1', N)
