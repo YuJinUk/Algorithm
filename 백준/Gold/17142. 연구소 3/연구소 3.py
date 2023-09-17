@@ -1,32 +1,30 @@
+import sys
 from collections import deque
 from itertools import combinations
+input = sys.stdin.readline
+
 n, m = map(int, input().split())
 board = deque()
 v_list = deque()
 cnt = 0
 for i in range(n):
-    matrix = list(map(int, input().split()))
+    row = list(map(int, input().rstrip().split()))
     for j in range(n):
-        if matrix[j] == 2:
+        if row[j] == 2:
             v_list.append((i,j))
-        elif matrix[j] == 1:
-            matrix[j] = -1
+        elif row[j] == 1:
+            row[j] = -1
             cnt += 1
-    board.append(matrix)
+    board.append(row)
+    
 def bfs(visit):
+    global v_list
     dxdy = [(1,0),(-1,0),(0,-1),(0,1)]
-    check = [[-1] * n for _ in range(n)]
-    # for i in range(n):
-    #     for j in range(n):
-    #         if board[i][j] == 2:
-    #             check[i][j] = 1
-    #         elif board[i][j] == 0:
-    #             check[i][j] = 0
+    check = [[-1 for _ in range(n)] for _ in range(n)]
     visited = deque()
     for x, y in visit:
         check[x][y] = 1
         visited.append((x,y))
-    # print(check)
     visit = deque(visit)
     rm_list = deque()
     while visit:
@@ -44,8 +42,11 @@ def bfs(visit):
                     rm_list.append((nx, ny))
     for a, b in rm_list:
         check[a][b] = 1
-
-    check = sum(check,[])
+    for alpha, beta in v_list:
+        if (alpha, beta) not in visited and check[alpha][beta] == -1:
+            check[alpha][beta] = -2
+            
+    check = sum(check, [])
     if check.count(-1) == cnt:
         return max(check)-1
     else:
@@ -54,7 +55,7 @@ def bfs(visit):
 result = deque()
 for c in combinations(v_list, m):
     result.append(bfs(c))
-if len(set(result)) == 1 and list(set(result))[0] == float('inf'):
+if list(set(result))[0] == float('inf'):
     print(-1)
 else:
     print(min(result))
