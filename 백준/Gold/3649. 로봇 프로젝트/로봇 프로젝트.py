@@ -1,33 +1,28 @@
 import sys
 input=sys.stdin.readline
 
-
 while True:
     try:
-        x=int(input())
-        T=int(input())
-        L=[]
+        x = int(input())
+        N = int(input())
+        check = sorted([int(input()) for _ in range(N)])
 
-        for i in range(T):
-            L.append(int(input()))
-        L.sort()
+        left = 0 ; right = N-1 ; answer = -1 ; answer_list = []
 
-        start=0 ; end=T-1 ; answer=-1 ; answer_list=[]
+        while left < right:
+            if check[left] + check[right] == x * 10000000:
 
-        while start<end:
-            if L[start]+L[end]==x*10000000:
+                if answer < abs(check[right]-check[left]):
+                    answer_list = [check[left], check[right]]
+                    answer = abs(check[right]-check[left])
+                left += 1
 
-                if answer<abs(L[end]-L[start]):
-                    answer_list=[L[start] , L[end]]
-                    answer=abs(L[end]-L[start])
-                start+=1
-
-            elif L[start]+L[end]>x*10000000:
-                end-=1
+            elif check[left] + check[right] > x * 10000000:
+                right -= 1
             else:
-                start+=1
+                left += 1
 
-        if len(answer_list)!=0:
+        if len(answer_list):
             print("yes %d %d"%(answer_list[0] , answer_list[1]))
         else:
             print('danger')
