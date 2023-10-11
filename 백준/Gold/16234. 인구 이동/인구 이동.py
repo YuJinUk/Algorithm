@@ -20,7 +20,7 @@ def solution(answer):
         national = deque()
         national.append((x, y))
         while visit:
-            x, y = visit.popleft()
+            x, y = visit.pop()
             for dx, dy in dxdy:
                 nx, ny = x + dx, y + dy
                 if -1 < nx < N and -1 < ny < N and checkboard[nx][ny] != idx:
