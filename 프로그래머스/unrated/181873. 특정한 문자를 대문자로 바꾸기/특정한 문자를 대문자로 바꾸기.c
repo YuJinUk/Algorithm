@@ -6,7 +6,7 @@
 char* solution(const char* my_string, const char* alp) {
     // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
     int l = strlen(my_string);
-    char* answer = (char*)malloc((l+1) * sizeof(int));
+    char* answer = (char*)malloc((l+1) * sizeof(char));
     for (int i=0; i<l; i++) {
         answer[i] = my_string[i];
         if (answer[i] == alp[0]) {
