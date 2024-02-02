@@ -1,4 +1,4 @@
-# segment tree 연습 2042 구간 합 구하기
+# segment tree 연습 11505 구간 곱 구하기
 # 1. 트리 만들기
 def init(start, end, idx):
 	# start와 end가 같다면 리프노드이다.
